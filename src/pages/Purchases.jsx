@@ -4,7 +4,7 @@ import Header from "../components/Header";
 
 function Purchases() {
   return (
-    <div className="pt-[100px] pb-24 px-4 min-h-screen">
+    <div className="pt-[100px] pb-32 px-4 min-h-screen">
       <div className="fixed top-0 left-0 w-full bg-white z-10">
         <Header />
       </div>

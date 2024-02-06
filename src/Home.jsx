@@ -6,6 +6,8 @@ import ExtraMenu from "./components/ExtraMenu";
 import Header from "./components/Header";
 
 function Home() {
+  // eslint-disable-next-line no-undef
+
   return (
     <div className=" flex justify-center items-center flex-col pt-[70px] pb-24 min-h-screen">
       <div className="fixed top-0 left-0 w-full bg-white z-10">
@@ -16,7 +18,7 @@ function Home() {
         <div className="w-80 min-h-80 rounded-lg bg-light p-4 pt-3">
           <div className="mb-6">
             <div className="mb-4 text-[32px] leading-10 text-black text-center font-semibold">
-              Afitsant chaqirish
+              Afitsant chaqirish {import.meta.env.REACT_APP_API_KEY}
             </div>
             <div className="flex justify-center min-h-32">
               <img src={bell} alt="" />

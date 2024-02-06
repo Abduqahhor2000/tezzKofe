@@ -1,9 +1,20 @@
 import { Button } from "@mui/material";
 import Header from "../components/Header";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { useGet } from "../axios/apies";
 
 function Product() {
   const [amount, setAmount] = useState(1)
+  const params = useParams()
+  const [product, setProduct] = useState({})
+
+  useEffect(()=>{
+   // eslint-disable-next-line react-hooks/rules-of-hooks
+   useGet("/product/one/" + params.item_id).then(({data})=> {
+    setProduct(data.data)
+   })
+  }, [])
 
   return (
     <div className="pt-24">
@@ -13,20 +24,20 @@ function Product() {
       <div className="pb-3 max-w-[500px] mx-auto px-3">
         <img
           className="aspect-[1.7/1] w-full object-cover rounded-xl mb-3"
-          src="/shashlik.png"
+          src={"http://45.132.106.225:1000/" + product?.image}
           alt=""
         />
-        <div className="text-xl font-semibold mb-1">G’ijduvon shashlik</div>
+        <div className="text-xl font-semibold mb-1">{product.title}</div>
         <div className="flex justify-start items-end pb-6">
           <div className="text-red-500 text-sm font-semibold pr-4">
-            356 000 uzs
+            {product.price} uzs
           </div>
-          <div className="line-through text-gray-400 text-[10px]">
+          {/* <div className="line-through text-gray-400 text-[10px]">
             546 000 uzs
-          </div>
+          </div> */}
         </div>
         <div className="border-t-[1px] border-gray-200">
-         
+         {product.desc}
         </div>
       </div>
       <div className="p-3 fixed w-full bottom-0 bg-white border-t-[1px] border-gray-200 flex justify-center">
