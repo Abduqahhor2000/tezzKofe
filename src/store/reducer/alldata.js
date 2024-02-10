@@ -4,13 +4,13 @@ export const counterSlice = createSlice({
   name: 'alldata',
   initialState: {
     table_id: "",
-    cofe_id: "",
+    cafe_id: "",
     products: [],
     menu: [],
   },
   reducers: {
-    setCofeID: (state, action) => {
-      state.cofe_id = action.payload
+    setCafeID: (state, action) => {
+      state.cafe_id = action.payload
     },
     setTableID: (state, action) => {
       state.table_id = action.payload
@@ -24,6 +24,6 @@ export const counterSlice = createSlice({
   },
 })
 
-export const { setCofeID, setTableID, setMenu, setProducts } = counterSlice.actions
+export const { setCafeID, setTableID, setMenu, setProducts } = counterSlice.actions
 
 export default counterSlice.reducer

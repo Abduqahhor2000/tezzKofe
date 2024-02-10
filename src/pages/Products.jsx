@@ -10,8 +10,8 @@ function Kits() {
   const [products, setProducts] = useState([]);
   useEffect(() => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    useGet(`/product/all/${params.kit_id}`).then(({ data }) => {
-      setProducts(data.data);
+    useGet(`/products?menu_id=${params.kit_id}`).then(({ data }) => {
+      setProducts(data); console.log(data);
     });
   }, []);
 

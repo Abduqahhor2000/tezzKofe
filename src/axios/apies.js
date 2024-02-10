@@ -7,7 +7,7 @@ function createInstance(baseURL) {
     (config) => {
       if (config.headers) {
         config.headers.Accept = "application/json";
-        config.headers.Authorization = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YWVkODAyM2IxYmRiODBhM2FkMjkyMSIsInN0YXR1cyI6ImthZmVBZG1pbiIsImlhdCI6MTcwNTk1NzM4OH0.BYhLdVD2Uw56u8ae66P-dskpEtAJ6FwmxAfftMB6SV0"
+        // config.headers.Authorization = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YWVkODAyM2IxYmRiODBhM2FkMjkyMSIsInN0YXR1cyI6ImthZmVBZG1pbiIsImlhdCI6MTcwNTk1NzM4OH0.BYhLdVD2Uw56u8ae66P-dskpEtAJ6FwmxAfftMB6SV0"
       }
 
       return config;
@@ -26,7 +26,7 @@ function createInstance(baseURL) {
 }
 
 const instance = (url, data) =>
-  createInstance("http://45.132.106.225:1000", data, url);
+  createInstance("http://cafe-system-production.up.railway.app/api", data, url);
 
 export const useGet = (url, data) => {
   return instance(url, data).get(url);

@@ -11,8 +11,8 @@ function Product() {
 
   useEffect(()=>{
    // eslint-disable-next-line react-hooks/rules-of-hooks
-   useGet("/product/one/" + params.item_id).then(({data})=> {
-    setProduct(data.data)
+   useGet("/products/" + params.item_id).then(({data})=> {
+    setProduct(data); console.log(data);
    })
   }, [])
 
@@ -24,10 +24,10 @@ function Product() {
       <div className="pb-3 max-w-[500px] mx-auto px-3">
         <img
           className="aspect-[1.7/1] w-full object-cover rounded-xl mb-3"
-          src={"http://45.132.106.225:1000/" + product?.image}
+          src={product?.image}
           alt=""
         />
-        <div className="text-xl font-semibold mb-1">{product.title}</div>
+        <div className="text-xl font-semibold mb-1">{product.name}</div>
         <div className="flex justify-start items-end pb-6">
           <div className="text-red-500 text-sm font-semibold pr-4">
             {product.price} uzs
@@ -37,7 +37,7 @@ function Product() {
           </div> */}
         </div>
         <div className="border-t-[1px] border-gray-200">
-         {product.desc}
+         {product.description}
         </div>
       </div>
       <div className="p-3 fixed w-full bottom-0 bg-white border-t-[1px] border-gray-200 flex justify-center">
