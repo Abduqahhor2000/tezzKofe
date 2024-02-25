@@ -33,6 +33,8 @@ function Purchases() {
 
       <div className="max-w-[500px] mx-auto grid grid-cols-1 gap-5">
         <CardMeal />
+        <CardMeal />
+        <CardMeal />
       </div>
 
       <div className="fixed bottom-0 left-0 w-full bg-white">

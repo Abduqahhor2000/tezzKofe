@@ -12,6 +12,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Connect from "./pages/Connect.jsx";
 import store from "./store";
 import { Provider } from "react-redux";
+import Basket from "./pages/Basket.jsx";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
   {
     path: "/purchases",
     element: <Purchases />,
+  },
+  {
+    path: "/basket",
+    element: <Basket />,
   },
   {
     path: "/connect/:table_id",

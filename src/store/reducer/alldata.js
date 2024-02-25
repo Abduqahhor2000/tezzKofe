@@ -9,6 +9,7 @@ export const counterSlice = createSlice({
     menus: [],
     allData: {},
     images: {},
+    basket: {}
   },
   reducers: {
     setCafeID: (state, action) => {
@@ -33,6 +34,9 @@ export const counterSlice = createSlice({
     addImage: (state, action) => {
       state.images[action.payload.url] = action.payload.image;
     },
+    setBasket: (state, action) => {
+      state.basket = action.payload;
+    },
   },
 });
 
@@ -43,6 +47,7 @@ export const {
   setProducts,
   setAllData,
   addImage,
+  setBasket,
 } = counterSlice.actions;
 
 export default counterSlice.reducer;
