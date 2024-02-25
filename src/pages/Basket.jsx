@@ -36,7 +36,7 @@ function Basket() {
       </div>
 
       <div className="max-w-[500px] mx-auto grid grid-cols-1 gap-5">
-        {basket.products.map((item) => {
+        {basket && basket?.products?.map((item) => {
           return <CardMeal meal={item} key={item._id} />;
         })}
       </div>
