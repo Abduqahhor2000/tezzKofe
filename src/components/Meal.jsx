@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
+import ImageDownloader from "./ImageDownloader";
 
 function Meal({ data }) {
   return (
     <div className="pb-3">
       <Link to={""+data.id}>
-        <img
+        <ImageDownloader
           className="aspect-[1/1] w-full object-cover rounded-xl mb-3"
-          src={data?.image}
+          url={data?.photo}
           alt=""
         />
         <div className="text-lg font-semibold mb-1">{data.name}</div>

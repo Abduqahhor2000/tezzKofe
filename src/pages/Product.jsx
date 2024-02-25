@@ -1,20 +1,48 @@
 import { Button } from "@mui/material";
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useGet } from "../axios/apies";
+import { useNavigate, useParams } from "react-router-dom";
+import { useGet, usePost } from "../axios/apies";
+import { useSelector } from "react-redux";
+import ImageDownloader from "../components/ImageDownloader";
 
 function Product() {
-  const [amount, setAmount] = useState(1)
-  const params = useParams()
-  const [product, setProduct] = useState({})
+  const params = useParams();
+  const navigate = useNavigate()
+  const [amount, setAmount] = useState(1);
+  const [product, setProduct] = useState({});
+  const products = useSelector((state) => state.counter.products);
+  const allData = useSelector((state) => state.counter.allData);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(()=>{
-   // eslint-disable-next-line react-hooks/rules-of-hooks
-   useGet("/products/" + params.item_id).then(({data})=> {
-    setProduct(data); console.log(data);
-   })
-  }, [])
+  console.log(allData);
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    if (products.length > 0) {
+      setProduct(products.find((item) => item._id === params.item_id));
+    }
+  }, [products]);
+
+  function addProductToBasket() {
+    setLoading(true);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    usePost("/clients/basket", {
+      restaurant: product?.restaurant,
+      table: allData._id,
+      code: localStorage.getItem("code") || "",
+      product: product._id,
+      quantity: amount,
+    })
+      .then((data) => {
+        console.log(data);
+        setLoading(false);
+        navigate(-1)
+      })
+      .catch((e) => {
+        console.log(e);
+        setLoading(false)
+      });
+  }
 
   return (
     <div className="pt-24">
@@ -22,9 +50,9 @@ function Product() {
         <Header />
       </div>
       <div className="pb-3 max-w-[500px] mx-auto px-3">
-        <img
+        <ImageDownloader
           className="aspect-[1.7/1] w-full object-cover rounded-xl mb-3"
-          src={product?.image}
+          url={product?.photo}
           alt=""
         />
         <div className="text-xl font-semibold mb-1">{product.name}</div>
@@ -37,22 +65,36 @@ function Product() {
           </div> */}
         </div>
         <div className="border-t-[1px] border-gray-200">
-         {product.description}
+          {product.description}
         </div>
       </div>
       <div className="p-3 fixed w-full bottom-0 bg-white border-t-[1px] border-gray-200 flex justify-center">
         <div className="relative w-full max-w-[500px]">
           <div className="absolute -top-[90px] right-0 flex items-center text-xl text-primary bg-white rounded-xl select-none">
-            <div onClick={() => setAmount(amount > 1 ? amount - 1 : 1 )} className="bg-light p-4 pt-0 pb-4 rounded-xl cursor-pointer">_</div>
-            <div className="text-base text-black px-4 font-semibold">{amount}</div>
-            <div onClick={() => setAmount(amount > 32 ? 33 : amount + 1 )} className="bg-light p-5 py-2 rounded-xl font-semibold cursor-pointer">+</div>
+            <div
+              onClick={() => setAmount(amount > 1 ? amount - 1 : 1)}
+              className="bg-light p-4 pt-0 pb-4 rounded-xl cursor-pointer"
+            >
+              _
+            </div>
+            <div className="text-base text-black px-4 font-semibold">
+              {amount}
+            </div>
+            <div
+              onClick={() => setAmount(amount > 32 ? 33 : amount + 1)}
+              className="bg-light p-5 py-2 rounded-xl font-semibold cursor-pointer"
+            >
+              +
+            </div>
           </div>
           <Button
             variant="contained"
             color="primary"
+            disabled={loading}
+            onClick={addProductToBasket}
             className="!py-2.5 !px-3 !w-full !shadow-none !rounded-2xl text-center !text-base !font-semibold !text-white !lowercase"
           >
-            {amount * 72000} so`m
+            {amount * product.price} so`m
           </Button>
         </div>
       </div>

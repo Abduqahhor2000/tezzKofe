@@ -1,13 +1,15 @@
 import axios from "axios";
 
 function createInstance(baseURL) {
-  const axiosInstance = axios.create({ baseURL });
-  
+  const axiosInstance = axios.create({ baseURL }); 
+
   axiosInstance.interceptors.request.use(
     (config) => {
       if (config.headers) {
         config.headers.Accept = "application/json";
-        // config.headers.Authorization = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1YWVkODAyM2IxYmRiODBhM2FkMjkyMSIsInN0YXR1cyI6ImthZmVBZG1pbiIsImlhdCI6MTcwNTk1NzM4OH0.BYhLdVD2Uw56u8ae66P-dskpEtAJ6FwmxAfftMB6SV0"
+        if (localStorage.getItem("token")) {
+          config.headers.Authorization = "Bearer " + localStorage.getItem("token");
+        }
       }
 
       return config;
@@ -26,7 +28,10 @@ function createInstance(baseURL) {
 }
 
 const instance = (url, data) =>
-  createInstance("http://cafe-system-production.up.railway.app/api", data, url);
+  createInstance("https://tezzcafe.uz/api/v1", data, url);
+
+  const instanceForPhoto = (url, data) =>
+  createInstance(`https://tezzcafe.uz`, data, url);
 
 export const useGet = (url, data) => {
   return instance(url, data).get(url);
@@ -45,4 +50,8 @@ export const usePut = (url, data) => {
 
 export const useDelete = (url, data) => {
   return instance(url, data).delete(url, data);
+};
+
+export const useGetPhoto = (url, data) => {
+  return instanceForPhoto(url, data).get(url, data);
 };

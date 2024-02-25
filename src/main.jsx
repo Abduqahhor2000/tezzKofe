@@ -35,7 +35,7 @@ const router = createBrowserRouter([
     element: <Purchases />,
   },
   {
-    path: "/connect/:cafe_id/:table_id",
+    path: "/connect/:table_id",
     element: <Connect />,
   },
 ]);

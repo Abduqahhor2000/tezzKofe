@@ -4,16 +4,19 @@ import Header from "../components/Header";
 import Meal from "../components/Meal";
 import { useParams } from "react-router-dom";
 import { useGet } from "../axios/apies";
+import { useSelector } from "react-redux";
 
 function Kits() {
   const params = useParams();
+  const menus = useSelector((state) => state.counter.menus);
   const [products, setProducts] = useState([]);
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    useGet(`/products?menu_id=${params.kit_id}`).then(({ data }) => {
-      setProducts(data); console.log(data);
-    });
-  }, []);
+
+  // useEffect(() => {
+  //   // eslint-disable-next-line react-hooks/rules-of-hooks
+  //   useGet(`/products?menu_id=${params.kit_id}`).then(({ data }) => {
+  //     setProducts(data); console.log(data);
+  //   });
+  // }, []);
 
   return (
     <div className="pt-[100px] pb-24 px-4 min-h-screen">
@@ -22,12 +25,20 @@ function Kits() {
       </div>
 
       <div className="max-w-[500px] grid grid-cols-2 gap-4 mx-auto">
-        {products.map((item) => {
-          return (
-            <>
-              <Meal data={item} />
-            </>
-          );
+        {menus.map((item) => {
+          if (item._id !== params.kit_id) {
+            return null;
+          }
+          return item.products.map((product) => {
+            if(!product.available){
+              return null
+            }
+            return (
+              <>
+                <Meal data={product} />
+              </>
+            );
+          });
         })}
       </div>
 
