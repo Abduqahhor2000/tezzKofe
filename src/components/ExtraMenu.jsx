@@ -41,7 +41,7 @@ function ExtraMenu() {
             <span>Menu</span>
           </div>
         </Link>
-        {/* <Link to="/purchases">
+        <Link to="/purchases">
           <div className="flex flex-col items-center min-w-16">
             <img
               src={direct === "purchases" ? hisob_active : hisob_def}
@@ -55,7 +55,7 @@ function ExtraMenu() {
               Hisob
             </p>
           </div>
-        </Link> */}
+        </Link>
         <Link to="/basket">
           <div className="flex flex-col items-center min-w-16">
             {direct === "basket" ? (

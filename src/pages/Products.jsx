@@ -21,7 +21,7 @@ function Kits() {
   return (
     <div className="pt-[100px] pb-24 px-4 min-h-screen">
       <div className="fixed top-0 left-0 w-full bg-white z-10">
-        <Header />
+        <Header title={menus.find((item)=>item._id === params.kit_id).name || null} />
       </div>
 
       <div className="max-w-[500px] grid grid-cols-2 gap-4 mx-auto">

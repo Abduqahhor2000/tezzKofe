@@ -9,3 +9,12 @@
   font-family: 'Unbounded', sans-serif;
   box-sizing: border-box;
 }
+
+
+
+@layer components {
+  .animate-card-remove {
+    @apply transition duration-300 ease-in-out transform;
+    transform: translateX(100%); /* Adjust displacement for desired slip effect */
+  }
+}

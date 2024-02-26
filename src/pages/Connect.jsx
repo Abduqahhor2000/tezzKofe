@@ -12,7 +12,7 @@ export default function Connect() {
   const navigate = useNavigate();
   const params = useParams();
   const dispatch = useDispatch();
-  console.log(params);
+  // console.log(params);
 
   useEffect(() => {
     // dispatch(setCafeID(params.cafe_id));

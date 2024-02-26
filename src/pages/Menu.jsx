@@ -24,7 +24,7 @@ function Menu() {
   return (
     <div className="items-center flex-col pt-[100px] pb-24 px-4 min-h-screen">
       <div className="fixed top-0 left-0 w-full bg-white z-10">
-        <Header />
+        <Header title={"Menu"} />
       </div>
 
       <div className="max-w-[500px] mx-auto">

@@ -2,52 +2,84 @@ import { Button } from "@mui/material";
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useGet, usePost } from "../axios/apies";
-import { useSelector } from "react-redux";
+import { useGet, usePost, usePut } from "../axios/apies";
+import { useDispatch, useSelector } from "react-redux";
 import ImageDownloader from "../components/ImageDownloader";
+import { setBasket } from "../store/reducer/alldata";
 
 function Product() {
+  const dispatch = useDispatch()
   const params = useParams();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [amount, setAmount] = useState(1);
   const [product, setProduct] = useState({});
+  const [basketItem, setBasketItem] = useState(null);
   const products = useSelector((state) => state.counter.products);
   const allData = useSelector((state) => state.counter.allData);
+  const basket = useSelector((state) => state.counter.basket);
   const [loading, setLoading] = useState(false);
 
-  console.log(allData);
+  // console.log(allData);
   useEffect(() => {
+    let haveItem = basket?.products?.find(
+      (item) => item.product._id === params.item_id
+    );
     // eslint-disable-next-line react-hooks/rules-of-hooks
+    setBasketItem(haveItem || null);
+    setAmount(haveItem ? haveItem?.quantity : 1);
     if (products.length > 0) {
       setProduct(products.find((item) => item._id === params.item_id));
     }
-  }, [products]);
+  }, [products, basket]);
 
   function addProductToBasket() {
     setLoading(true);
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    usePost("/clients/basket", {
-      restaurant: product?.restaurant,
-      table: allData._id,
-      code: localStorage.getItem("code") || "",
-      product: product._id,
-      quantity: amount,
-    })
-      .then((data) => {
-        console.log(data);
-        setLoading(false);
-        navigate(-1)
+
+    if (basketItem) {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      usePut(`/clients/basket/${basket._id}`, {
+        restaurant: basket.restaurant,
+        table: basket.table,
+        code: localStorage.getItem("code") || "",
+        product: basketItem?.product?._id,
+        quantity: amount,
       })
-      .catch((e) => {
-        console.log(e);
-        setLoading(false)
-      });
+        .then(({ data }) => {
+          // console.log(data);
+          setLoading(false);
+          dispatch(setBasket(data))
+          navigate(-1)
+        })
+        .catch((e) => {
+          console.log(e);
+          setLoading(false);
+        });
+    } else {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      usePost("/clients/basket", {
+        restaurant: product?.restaurant,
+        table: allData._id,
+        code: localStorage.getItem("code") || "",
+        product: product._id,
+        quantity: amount,
+      })
+        .then((data) => {
+          // console.log(data);
+          setLoading(false);
+          dispatch(setBasket(data))
+          navigate(-1);
+        })
+        .catch((e) => {
+          console.log(e);
+          setLoading(false);
+        });
+    }
   }
 
   return (
     <div className="pt-24">
       <div className="fixed top-0 left-0 w-full bg-white z-10">
-        <Header />
+        <Header title={product.name} />
       </div>
       <div className="pb-3 max-w-[500px] mx-auto px-3">
         <ImageDownloader

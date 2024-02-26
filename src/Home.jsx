@@ -25,7 +25,7 @@ function Home() {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     usePost(`/tables/call/${allData._id}`, { code })
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         setLoading(false);
         setPuls(true)
         setTimeout(()=>setPuls(false),5000)
