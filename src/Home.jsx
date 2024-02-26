@@ -28,7 +28,7 @@ function Home() {
         // console.log(data);
         setLoading(false);
         setPuls(true)
-        setTimeout(()=>setPuls(false),5000)
+        setTimeout(()=>setPuls(false),15000)
       })
       .catch((e) => {
         console.log(e);
