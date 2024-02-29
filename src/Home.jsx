@@ -16,6 +16,7 @@ function Home() {
   const [loading, setLoading] = useState(false);
   const [puls, setPuls] = useState(false);
   const dispatch = useDispatch()
+  const yaxmalay = import.meta.env.VITE_API_KEY
 
   useEffect(() => {
     getStatusWaiter()
@@ -57,6 +58,8 @@ function Home() {
         setLoading(false);
       });
   }
+
+  console.log("saaaaaaaaaaaalom", yaxmalay);
 
   return (
     <div className=" flex justify-center items-center flex-col pt-[70px] pb-24 min-h-screen">
