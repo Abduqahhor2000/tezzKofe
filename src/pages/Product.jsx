@@ -63,7 +63,7 @@ function Product() {
         product: product._id,
         quantity: amount,
       })
-        .then((data) => {
+        .then(({data}) => {
           // console.log(data);
           setLoading(false);
           dispatch(setBasket(data))
@@ -79,7 +79,7 @@ function Product() {
   return (
     <div className="pt-24">
       <div className="fixed top-0 left-0 w-full bg-white z-10">
-        <Header title={product.name} />
+        <Header title={product.name} back={true} />
       </div>
       <div className="pb-3 max-w-[500px] mx-auto px-3">
         <ImageDownloader
@@ -87,7 +87,7 @@ function Product() {
           url={product?.photo}
           alt=""
         />
-        <div className="text-xl font-semibold mb-1">{product.name}</div>
+        <div className="text-xl font-semibold mb-1 font-unbounded">{product.name}</div>
         <div className="flex justify-start items-end pb-6">
           <div className="text-red-500 text-sm font-semibold pr-4">
             {product.price} uzs

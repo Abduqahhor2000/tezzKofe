@@ -10,7 +10,7 @@ function Meal({ data }) {
           url={data?.photo}
           alt=""
         />
-        <div className="text-lg font-semibold mb-1">{data.name}</div>
+        <div className="text-lg font-semibold mb-1 font-unbounded">{data.name}</div>
         <div className="flex justify-between items-end">
           <div className="text-red-500 text-sm font-semibold">
             {data.price} uzs

@@ -9,7 +9,7 @@ function CardMeal({ meal }) {
         alt=""
       />
       <div className="flex-grow pl-3">
-        <h4 className="font-semibold text-sm pb-2">{meal?.product?.name}</h4>
+        <h4 className="font-semibold text-sm pb-2 font-unbounded">{meal?.product?.name}</h4>
         <p className="text-gray-400 text-[10px] pb-1">
           {meal?.product?.price} uzs
         </p>

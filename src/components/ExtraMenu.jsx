@@ -38,7 +38,7 @@ function ExtraMenu() {
               direct === "menu" ? "text-white bg-primary" : ""
             }`}
           >
-            <span>Menu</span>
+            <span className="font-unbounded">Menu</span>
           </div>
         </Link>
         <Link to="/purchases">
@@ -53,22 +53,6 @@ function ExtraMenu() {
               }`}
             >
               Hisob
-            </p>
-          </div>
-        </Link>
-        <Link to="/basket">
-          <div className="flex flex-col items-center min-w-16">
-            {direct === "basket" ? (
-              <ShoppingBasket />
-            ) : (
-              <ShoppingBasketOutlined />
-            )}
-            <p
-              className={`text-xs text-gray-500 font-displey ${
-                direct === "basket" ? "text-primary font-semibold" : ""
-              }`}
-            >
-              Savat
             </p>
           </div>
         </Link>

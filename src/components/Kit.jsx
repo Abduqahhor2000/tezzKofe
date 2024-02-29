@@ -10,7 +10,7 @@ function Kit({ data }) {
           url={data?.photo}
           alt=""
         />
-        <div className="text-2xl pb-2 font-semibold text-start">
+        <div className="text-2xl pb-2 font-semibold text-start font-unbounded">
           {data.name}
         </div>
       </Link>

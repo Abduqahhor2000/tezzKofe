@@ -27,6 +27,7 @@ export default function Connect() {
     usePost(`/tables/code/${params.table_id}`, {code}).then(({data})=>{
       dispatch(setAllData(data))
       localStorage.setItem("code", code)
+      localStorage.setItem("table_id", params.table_id)
       navigate("/")
     }).catch((e)=>console.log(e))
   } 

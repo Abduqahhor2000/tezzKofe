@@ -13,6 +13,7 @@ import Connect from "./pages/Connect.jsx";
 import store from "./store";
 import { Provider } from "react-redux";
 import Basket from "./pages/Basket.jsx";
+import Page404 from "./pages/Page404.jsx";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
   {
     path: "/connect/:table_id",
     element: <Connect />,
+  },
+  {
+    path: "*",
+    element: <Page404 />,
   },
 ]);
 

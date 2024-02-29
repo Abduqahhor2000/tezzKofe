@@ -14,7 +14,9 @@ export default {
         pulsar: 'pulsar 2s ease-in-out infinite',
       },
       fontFamily:{
-        "displey": ["'Noto Sans Display'", "sans-serif"]
+        unbounded: ["Unbounded", 'sans-serif'],
+        ClashDisplay: ["ClashDisplay", "sans-serif"],
+        SFProDisplay: ['SFProDisplay', "sans-serif"],
       },
       colors: {
         light: "#F5F4F5",

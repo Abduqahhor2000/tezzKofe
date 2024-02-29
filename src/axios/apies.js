@@ -14,12 +14,21 @@ function createInstance(baseURL) {
 
       return config;
     },
-    (error) => Promise.reject(error)
+    (error) => Promise.reject(error) 
   );
 
   axiosInstance.interceptors.response.use(
     async (res) => res,
     (error) => {
+      if(error.response.status === 404 || error.response.status === 400){
+        if(localStorage.getItem("table_id")){
+          window.location.href = `/connect/${localStorage.getItem("table_id")}`
+          localStorage.clear()
+        }else{
+          window.location.href = "/404"
+          localStorage.clear()
+        }
+      }
       return Promise.reject(error);
     }
   );

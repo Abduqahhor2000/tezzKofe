@@ -1,31 +1,60 @@
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ImageDownloader from "./ImageDownloader";
+import { ShoppingBasket, ShoppingBasketOutlined } from "@mui/icons-material";
 // import ImageDownloader from "./ImageDownloader";
 
-function Header({title}) {
+function Header({ title, back = false }) {
   const table = useSelector((state) => state.counter?.allData);
-  const navigate = useNavigate()
+  const basket = useSelector((state) => state.counter?.basket);
+  const navigate = useNavigate();
 
-  // console.log(table);
+  console.log(basket);
   return (
     <div className="border-b-[1px] border-gray-200">
-      <div className="flex justify-between p-5 pb-4 max-w-[540px] mx-auto">
-        <div onClick={()=> navigate(-1)} className="flex items-center cursor-pointer w-6/12">
-          <img className="rounded-lg w-8 h-8 object-cover" src="/maxfood.png" />
-          <span className="pl-3 font-semibold text-xl truncate">{title || table?.name}</span>
+      <div className="flex justify-between p-2 pb-1 px-3 max-w-[540px] mx-auto">
+        <div
+          onClick={() => (back ? navigate(-1) : null)}
+          className={`flex items-center w-6/12 ${
+            back ? "cursor-pointer" : null
+          }`}
+        >
+          <img
+            className="rounded-lg w-8 h-8 object-cover"
+            src={back ? "/backarrow.svg" : "/maxfood.png"}
+          />
+          <span className="pl-3 font-semibold text-xl truncate">
+            {title || table?.name}
+          </span>
         </div>
 
-        <div className="flex items-center justify-end flex-grow w-6/12">
+        <div className="flex flex-col items-end justify-end flex-grow w-6/12">
+          <div className="flex justify-end">
+            <ImageDownloader
+              className="rounded-full w-8 h-8 object-cover"
+              url={table?.waiter?.avatar}
+              // src="/diyorbek.png"
+              alt=""
+            />
+            <Link to="/basket">
+              <div className="flex flex-col items-center min-w-16 relative">
+                {basket?.products?.length > 0 ? (
+                  <span className="absolute flex h-2 w-2 top-0 right-5">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                  </span>
+                ) : null}
+                <ShoppingBasket />
+
+                {/* <ShoppingBasketOutlined /> */}
+
+                <p className={`text-xs text-gray-500 font-displey`}>Savat</p>
+              </div>
+            </Link>
+          </div>
           <span className="pr-3 text-base text-gray-500 text-right truncate">
             {table?.waiter?.firstName}
           </span>
-          <ImageDownloader
-            className="rounded-full w-8 h-8 object-cover"
-            url={table?.waiter?.avatar}
-            // src="/diyorbek.png"
-            alt=""
-          />
         </div>
       </div>
     </div>

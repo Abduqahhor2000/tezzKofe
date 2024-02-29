@@ -1,14 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Display&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Unbounded:wght@200..900&display=swap');
+
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 *{
-  font-family: 'Unbounded', sans-serif;
+  font-family: 'SFProDisplay', "sans-serif";
   box-sizing: border-box;
-}
+}  
 
 
 
@@ -17,4 +17,23 @@
     @apply transition duration-300 ease-in-out transform;
     transform: translateX(100%); /* Adjust displacement for desired slip effect */
   }
+}
+
+@font-face {
+  font-family: 'SFProDisplay';
+  src: url('./fonts/SF-Pro-Display-Medium.otf') format('opentype'); /* Adjust the file format and path */
+  font-weight: 500;
+  /* Add other font properties as needed */
+}
+@font-face {
+  font-family: 'SFProDisplay';
+  src: url('./fonts/SF-Pro-Display-Regular.otf') format('opentype'); /* Adjust the file format and path */
+  font-weight: 400;
+  /* Add other font properties as needed */
+}
+@font-face {
+  font-family: 'SFProDisplay';
+  src: url('./fonts/SF-Pro-Display-Semibold.otf') format('opentype'); /* Adjust the file format and path */
+  font-weight: 600;
+  /* Add other font properties as needed */
 }

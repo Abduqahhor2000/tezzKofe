@@ -65,7 +65,7 @@ function ProductCardBasket({ meal }) {
 
         <div className="flex-grow pl-3 pr-5">
           <Link to={`/menu/${meal?.product?.category}/${meal.product._id}`}>
-            <h4 className="font-semibold text-sm pb-2">
+            <h4 className="font-semibold text-sm pb-2 font-unbounded">
               {meal?.product?.name}
             </h4>
           </Link>
