@@ -8,32 +8,61 @@ import Header from "./components/Header";
 import { usePost } from "./axios/apies";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import socket from "./socket";
 import { setAllData } from "./store/reducer/alldata";
+import io from "socket.io-client";
 
 function Home() {
   const allData = useSelector((state) => state.counter.allData);
   const [loading, setLoading] = useState(false);
   const [puls, setPuls] = useState(false);
-  const dispatch = useDispatch()
-  const yaxmalay = import.meta.env.VITE_API_KEY
+  const dispatch = useDispatch();
+  // const yaxmalay = import.meta.env.VITE_API_KEY;
 
   useEffect(() => {
     getStatusWaiter()
+    if (!allData._id) {
+      return;
+    }
 
-    console.log("salom");
-    socket.on("connect", () => {
+    const socket = io("https://tezzcafe.uz", {
+      withCredentials: true,
+      autoConnect: true,
+      secure: true,
+      reconnection: true,
+      reconnectionAttempts: Infinity,
+      transports: ["websocket"],
+      query: {
+        table: allData._id,
+        restaurant: allData.restaurant,
+        token:
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZDY1MmNlYzQ0ODVmMjBiZGY1ZDg5OSIsInJvbGUiOiJkaXJlY3RvciIsInJlc3RhdXJhbnQiOiI2NWQ2NTJjZWM0NDg1ZjIwYmRmNWQ4OTciLCJpYXQiOjE3MDk0ODQ1MTUsImV4cCI6MTcwOTY1NzMxNX0.3NOP06BW8gRmL4Drmxb2XpeHuS0VTWGUgQVFKY4_Lv0",
+      },
+    });
+    socket.connect()
+    // console.log("salom");
+    socket.on("callAccepted", () => {
+      getStatusWaiter()
       console.log("Connected to server!");
+      // getStatusWaiter()
     });
 
-    return () => socket.disconnect(); // Disconnect on unmount
+    // socket.connect();
+
+    return () => {
+      socket.off("callAccepted");
+      socket.disconnect();
+    }; // Disconnect on unmount
   }, []);
 
-  function getStatusWaiter () {
+  function getStatusWaiter() {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    usePost(`/tables/code/${localStorage.getItem("table_id") || ""}`, {code: localStorage.getItem("code") || ""}).then(({data})=>{
-      dispatch(setAllData(data))
-    }).catch((e)=>console.log(e))
+    usePost(`/tables/code/${localStorage.getItem("table_id") || ""}`, {
+      code: localStorage.getItem("code") || "",
+    })
+      .then(({ data }) => {
+        dispatch(setAllData(data));
+      })
+      .catch((e) => console.log(e));
   }
 
   function callWaiterReq() {
@@ -50,8 +79,7 @@ function Home() {
       .then((data) => {
         // console.log(data);
         setLoading(false);
-        setPuls(true);
-        setTimeout(() => setPuls(false), 15000);
+        dispatch(setAllData({...allData, call: "calling"}))
       })
       .catch((e) => {
         console.log(e);
@@ -59,7 +87,7 @@ function Home() {
       });
   }
 
-  console.log("saaaaaaaaaaaalom", yaxmalay);
+  console.log("saaaaaaaaaaaalom", allData);
 
   return (
     <div className=" flex justify-center items-center flex-col pt-[70px] pb-24 min-h-screen">
@@ -71,13 +99,13 @@ function Home() {
           <div className="mb-4 text-[32px] leading-10 text-black text-center font-semibold font-unbounded">
             Afitsant chaqirish
           </div>
-          <div className="flex justify-center min-h-32">
+          <div className="flex justify-center flex-col items-center min-h-40 w-full">
             {/* <div className=" max-h-min"> */}
             <img
-              className={`border-2 border-transparent m-2 rounded-[42px] ${
-                allData.call === "calling" || puls ? "animate-pulsar" : ""
+              className={`border-2 border-transparent rounded-[42px] ${
+                allData.call === "calling" ? "animate-pulsar" : ""
               }`}
-              src={allData.call === "accpted" ? bell_green : bell}
+              src={allData.call === "accepted" ? bell_green : bell}
               alt=""
             />
             {/* </div> */}

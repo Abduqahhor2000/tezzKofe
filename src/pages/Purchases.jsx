@@ -34,7 +34,7 @@ function Purchases() {
       </div>
 
       <div className="max-w-[500px] mx-auto grid grid-cols-1 gap-5">
-        {purchs?.products.map((purch) => {
+        {purchs?.products?.map((purch) => {
           return <CardMeal meal={purch} key={purch._id} />;
         })}
       </div>
