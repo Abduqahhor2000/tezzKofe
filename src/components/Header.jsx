@@ -1,13 +1,21 @@
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import ImageDownloader from "./ImageDownloader";
-import { ShoppingBasket, ShoppingBasketOutlined } from "@mui/icons-material";
+import { ShoppingBasket } from "@mui/icons-material";
+import { useEffect } from "react";
 // import ImageDownloader from "./ImageDownloader";
 
 function Header({ title, back = false }) {
   const table = useSelector((state) => state.counter?.allData);
   const basket = useSelector((state) => state.counter?.basket);
+  const allData = useSelector((state) => state.counter?.allData);
   const navigate = useNavigate();
+
+  useEffect(()=>{
+    if(!allData._id){
+      navigate(localStorage.getItem("table_id") ? `/connect/${localStorage.getItem("table_id")}` : "/404")
+    }
+  }, [])
 
   console.log(basket);
   return (
