@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { setAllData } from "./store/reducer/alldata";
 import io from "socket.io-client";
+import ImageDownloader from "./components/ImageDownloader";
 
 function Home() {
   const allData = useSelector((state) => state.counter.allData);
@@ -19,7 +20,7 @@ function Home() {
   // const yaxmalay = import.meta.env.VITE_API_KEY;
 
   useEffect(() => {
-    getStatusWaiter()
+    getStatusWaiter();
     if (!allData._id) {
       return;
     }
@@ -34,14 +35,12 @@ function Home() {
       query: {
         table: allData._id,
         restaurant: allData.restaurant,
-        token:
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZDY1MmNlYzQ0ODVmMjBiZGY1ZDg5OSIsInJvbGUiOiJkaXJlY3RvciIsInJlc3RhdXJhbnQiOiI2NWQ2NTJjZWM0NDg1ZjIwYmRmNWQ4OTciLCJpYXQiOjE3MDk0ODQ1MTUsImV4cCI6MTcwOTY1NzMxNX0.3NOP06BW8gRmL4Drmxb2XpeHuS0VTWGUgQVFKY4_Lv0",
       },
     });
-    socket.connect()
+    socket.connect();
     // console.log("salom");
     socket.on("callAccepted", () => {
-      getStatusWaiter()
+      getStatusWaiter();
       console.log("Connected to server!");
       // getStatusWaiter()
     });
@@ -79,7 +78,7 @@ function Home() {
       .then((data) => {
         // console.log(data);
         setLoading(false);
-        dispatch(setAllData({...allData, call: "calling"}))
+        dispatch(setAllData({ ...allData, call: "calling" }));
       })
       .catch((e) => {
         console.log(e);
@@ -96,8 +95,16 @@ function Home() {
       </div>
       <div className="w-80 min-h-80 rounded-lg bg-light p-4 pt-3">
         <div className="mb-6">
-          <div className="mb-4 text-[32px] leading-10 text-black text-center font-semibold font-unbounded">
-            Afitsant chaqirish
+          <div className="mb-4 text-black flex items-center">
+            <ImageDownloader
+              className="rounded-lg w-16 h-16 object-cover"
+              url={allData?.waiter?.avatar}
+              // src="/diyorbek.png"
+              alt=""
+            />
+            <span className="pl-3 text-2xl text-gray-500">
+              {allData?.waiter?.firstName}
+            </span>
           </div>
           <div className="flex justify-center flex-col items-center min-h-40 w-full">
             {/* <div className=" max-h-min"> */}
@@ -113,6 +120,7 @@ function Home() {
         </div>
         <Button
           onClick={callWaiterReq}
+          disabled={allData.call === "calling" ? true : false}
           variant="contained"
           color="primary"
           className="!py-4 !px-3 w-full !shadow-none !rounded-2xl text-center !text-base !text-white"

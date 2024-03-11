@@ -11,11 +11,15 @@ function Header({ title, back = false }) {
   const allData = useSelector((state) => state.counter?.allData);
   const navigate = useNavigate();
 
-  useEffect(()=>{
-    if(!allData._id){
-      navigate(localStorage.getItem("table_id") ? `/connect/${localStorage.getItem("table_id")}` : "/404")
+  useEffect(() => {
+    if (!allData._id) {
+      navigate(
+        localStorage.getItem("table_id")
+          ? `/connect/${localStorage.getItem("table_id")}`
+          : "/404"
+      );
     }
-  }, [])
+  }, []);
 
   console.log(basket);
   return (
@@ -36,34 +40,21 @@ function Header({ title, back = false }) {
           </span>
         </div>
 
-        <div className="flex flex-col items-end justify-end flex-grow w-6/12">
-          <div className="flex justify-end">
-            <ImageDownloader
-              className="rounded-full w-8 h-8 object-cover"
-              url={table?.waiter?.avatar}
-              // src="/diyorbek.png"
-              alt=""
-            />
-            <Link to="/basket">
-              <div className="flex flex-col items-center min-w-16 relative">
-                {basket?.products?.length > 0 ? (
-                  <span className="absolute flex h-2 w-2 top-0 right-5">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-                  </span>
-                ) : null}
-                <ShoppingBasket />
+        <Link to="/basket">
+          <div className="flex flex-col items-center min-w-16 relative">
+            {basket?.products?.length > 0 ? (
+              <span className="absolute flex h-2 w-2 top-0 right-5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+              </span>
+            ) : null}
+            <ShoppingBasket />
 
-                {/* <ShoppingBasketOutlined /> */}
+            {/* <ShoppingBasketOutlined /> */}
 
-                <p className={`text-xs text-gray-500 font-displey`}>Savat</p>
-              </div>
-            </Link>
+            <p className={`text-xs text-gray-500 font-displey`}>Savat</p>
           </div>
-          <span className="pr-3 text-base text-gray-500 text-right truncate">
-            {table?.waiter?.firstName}
-          </span>
-        </div>
+        </Link>
       </div>
     </div>
   );
