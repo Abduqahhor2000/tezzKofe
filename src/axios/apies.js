@@ -37,10 +37,10 @@ function createInstance(baseURL) {
 }
 
 const instance = (url, data) =>
-  createInstance("https://tezzcafe.uz/api/v1", data, url);
+  createInstance(`${import.meta.env.VITE_DOMAIN || "https://tezzcafe.uz"}/api/v1`, data, url);
 
   const instanceForPhoto = (url, data) =>
-  createInstance(`https://tezzcafe.uz`, data, url);
+  createInstance(`${import.meta.env.VITE_DOMAIN || "https://tezzcafe.uz"}`, data, url);
 
 export const useGet = (url, data) => {
   return instance(url, data).get(url);

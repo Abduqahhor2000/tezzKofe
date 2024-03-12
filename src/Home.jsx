@@ -25,7 +25,7 @@ function Home() {
       return;
     }
 
-    const socket = io("https://tezzcafe.uz", {
+    const socket = io(`${import.meta.env.VITE_DOMAIN || "https://tezzcafe.uz"}`, {
       withCredentials: true,
       autoConnect: true,
       secure: true,

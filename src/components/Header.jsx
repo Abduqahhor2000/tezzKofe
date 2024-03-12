@@ -1,6 +1,5 @@
 import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import ImageDownloader from "./ImageDownloader";
 import { ShoppingBasket } from "@mui/icons-material";
 import { useEffect } from "react";
 // import ImageDownloader from "./ImageDownloader";
