@@ -1,32 +1,38 @@
 import axios from "axios";
 
 function createInstance(baseURL) {
-  const axiosInstance = axios.create({ baseURL }); 
+  const axiosInstance = axios.create({ baseURL });
 
   axiosInstance.interceptors.request.use(
     (config) => {
       if (config.headers) {
         config.headers.Accept = "application/json";
         if (localStorage.getItem("token")) {
-          config.headers.Authorization = "Bearer " + localStorage.getItem("token");
+          config.headers.Authorization =
+            "Bearer " + localStorage.getItem("token");
         }
       }
 
       return config;
     },
-    (error) => Promise.reject(error) 
+    (error) => Promise.reject(error)
   );
 
   axiosInstance.interceptors.response.use(
     async (res) => res,
     (error) => {
-      if(error.response.status === 404 || error.response.status === 400){
-        if(localStorage.getItem("table_id")){
-          window.location.href = `/connect/${localStorage.getItem("table_id")}`
-          localStorage.clear()
-        }else{
-          window.location.href = "/404"
-          localStorage.clear()
+      let URL = error.config.url.split("/");
+      if (URL[1] == "tables" && URL[2] == "code") {
+        return Promise.reject(error);
+      }
+
+      if (error.response.status === 404 || error.response.status === 400) {
+        if (localStorage.getItem("table_id")) {
+          window.location.href = `/connect/${localStorage.getItem("table_id")}`;
+          localStorage.clear();
+        } else {
+          window.location.href = "/404";
+          localStorage.clear();
         }
       }
       return Promise.reject(error);
@@ -37,10 +43,18 @@ function createInstance(baseURL) {
 }
 
 const instance = (url, data) =>
-  createInstance(`${import.meta.env.VITE_DOMAIN || "https://tezzcafe.uz"}/api/v1`, data, url);
+  createInstance(
+    `${import.meta.env.VITE_DOMAIN || "https://tezzcafe.uz"}/api/v1`,
+    data,
+    url
+  );
 
-  const instanceForPhoto = (url, data) =>
-  createInstance(`${import.meta.env.VITE_DOMAIN || "https://tezzcafe.uz"}`, data, url);
+const instanceForPhoto = (url, data) =>
+  createInstance(
+    `${import.meta.env.VITE_DOMAIN || "https://tezzcafe.uz"}`,
+    data,
+    url
+  );
 
 export const useGet = (url, data) => {
   return instance(url, data).get(url);

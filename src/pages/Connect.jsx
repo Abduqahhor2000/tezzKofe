@@ -1,14 +1,15 @@
 import { useDispatch } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { setAllData, setCafeID, setTableID } from "../store/reducer/alldata";
+import { setAllData } from "../store/reducer/alldata";
 import { Button } from "@mui/material";
 // import ExtraMenu from "../components/ExtraMenu";
 import BaseInput from "../components/BaseInput";
 import { usePost } from "../axios/apies";
 
 export default function Connect() {
-  const [code, setCode] = useState("")
+  const [code, setCode] = useState("");
+  const [error, setError] = useState(false);
   const navigate = useNavigate();
   const params = useParams();
   const dispatch = useDispatch();
@@ -18,19 +19,26 @@ export default function Connect() {
     // dispatch(setCafeID(params.cafe_id));
     // dispatch(setTableID(params.table_id));
     // navigate("/");
+    // localStorage.setItem("table_id", params.table_id || "");
   }, []);
 
   function getToken(e) {
     e.preventDefault();
     
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    usePost(`/tables/code/${params.table_id}`, {code}).then(({data})=>{
-      dispatch(setAllData(data))
-      localStorage.setItem("code", code)
-      localStorage.setItem("table_id", params.table_id)
-      navigate("/")
-    }).catch((e)=>console.log(e))
-  } 
+    usePost(`/tables/code/${params.table_id}`, { code })
+      .then(({ data }) => {
+        dispatch(setAllData(data));
+        localStorage.setItem("code", code);
+        localStorage.setItem("table_id", params.table_id);
+        navigate("/");
+      })
+      .catch((e) => {
+        console.log(e);
+        setCode("")
+        setError(true)
+      });
+  }
 
   return (
     <div className="flex justify-center items-center min-h-screen">
@@ -38,7 +46,9 @@ export default function Connect() {
         <div className="flex justify-between mb-7">
           <div className="flex items-center">
             <span className="block h-3 w-3 rounded-full bg-green-500 mr-1.5"></span>
-            <span className="text-2xl leading-6 font-semibold">Stolni band qilish</span>
+            <span className="text-2xl leading-6 font-semibold">
+              Stolni band qilish
+            </span>
           </div>
           {/* <IconButton>
                 <img
@@ -52,10 +62,20 @@ export default function Connect() {
           Tasdiqlash kodingizni kiriting
         </div>
         <form onSubmit={getToken}>
-          <BaseInput value={code} onChange={(e)=>setCode(e.target.value)} required placeholder={"1234"} />
+          <BaseInput
+            value={code}
+            error={error}
+            onFocus={()=>setError(false)}
+            onChange={(e) =>
+              setCode(e.target.value.length > 4 ? code : e.target.value)
+            }
+            required
+            placeholder={"1234"}
+          />
           <Button
             type="submit"
             variant="contained"
+            disabled={code.length == 4 ? false : true}
             color="primary"
             className="!py-3 !px-4 !mt-6 w-full !shadow-none !rounded-lg text-center !text-base !leading-5 !text-white !normal-case"
           >
