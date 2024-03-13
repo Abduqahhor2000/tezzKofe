@@ -96,7 +96,8 @@ function Home() {
       <div className="w-80 min-h-80 rounded-lg bg-light p-4 pt-3">
         <div className="mb-6">
           <div className="mb-4 text-black flex items-center">
-            <ImageDownloader
+            {
+              allData?.waiter ? <>   <ImageDownloader
               className="rounded-lg w-16 h-16 object-cover"
               url={allData?.waiter?.avatar}
               // src="/diyorbek.png"
@@ -104,7 +105,9 @@ function Home() {
             />
             <span className="pl-3 text-2xl text-gray-500">
               {allData?.waiter?.firstName}
-            </span>
+            </span></> : <div className="text-[32px] leading-10 font-semibold text-center w-full font-unbounded">Afitsant chaqirish</div>
+            }
+         
           </div>
           <div className="flex justify-center flex-col items-center min-h-40 w-full">
             {/* <div className=" max-h-min"> */}
