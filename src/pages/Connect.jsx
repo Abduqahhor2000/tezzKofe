@@ -15,16 +15,18 @@ export default function Connect() {
   const dispatch = useDispatch();
   // console.log(params);
 
-  useEffect(() => {
-    // dispatch(setCafeID(params.cafe_id));
-    // dispatch(setTableID(params.table_id));
-    // navigate("/");
-    // localStorage.setItem("table_id", params.table_id || "");
-  }, []);
+  useEffect(() => {}, []);
 
   function getToken(e) {
     e.preventDefault();
-    
+
+    if (code.split("").find((item) => /^[a-zA-Z]*$/.test(item))) {
+      console.log();
+    } else {
+      setError("Kamida 1ta harfdan foydalaning.");
+      return;
+    }
+
     // eslint-disable-next-line react-hooks/rules-of-hooks
     usePost(`/tables/code/${params.table_id}`, { code })
       .then(({ data }) => {
@@ -35,10 +37,12 @@ export default function Connect() {
       })
       .catch((e) => {
         console.log(e);
-        setCode("")
-        setError(true)
+        setCode("");
+        setError("Tastiqlash kodi xato.");
       });
   }
+
+  // console.log(code.split("").find((item) => /^[a-zA-Z]*$/.test(item)));
 
   return (
     <div className="flex justify-center items-center min-h-screen">
@@ -64,20 +68,25 @@ export default function Connect() {
         <form onSubmit={getToken}>
           <BaseInput
             value={code}
-            error={error}
-            onFocus={()=>setError(false)}
-            onChange={(e) =>
-              setCode(e.target.value.length > 4 ? code : e.target.value)
-            }
+            error={error ? true : false}
+            onFocus={() => setError("")}
+            onChange={(e) => {
+              setCode(e.target.value.length > 4 ? code : e.target.value);
+            }}
             required
             placeholder={"1234"}
           />
+          {error ? (
+            <div className="text-red-500">{error}</div>
+          ) : (
+            <div className="select-none text-transparent">|</div>
+          )}
           <Button
             type="submit"
             variant="contained"
             disabled={code.length == 4 ? false : true}
             color="primary"
-            className="!py-3 !px-4 !mt-6 w-full !shadow-none !rounded-lg text-center !text-base !leading-5 !text-white !normal-case"
+            className="!py-3 !px-4 !mt-1 w-full !shadow-none !rounded-lg text-center !text-base !leading-5 !text-white !normal-case"
           >
             Kirish
           </Button>
