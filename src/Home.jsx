@@ -65,6 +65,7 @@ function Home() {
   }
 
   function callWaiterReq() {
+    setPuls(true)
     let code = "";
     if (localStorage.getItem("code") && !loading) {
       code = localStorage.getItem("code");
@@ -79,6 +80,9 @@ function Home() {
         // console.log(data);
         setLoading(false);
         dispatch(setAllData({ ...allData, call: "calling" }));
+        setTimeout(()=>{
+          setPuls(false)
+        },60000)
       })
       .catch((e) => {
         console.log(e);
@@ -86,7 +90,7 @@ function Home() {
       });
   }
 
-  console.log("saaaaaaaaaaaalom", allData);
+  // console.log("saaaaaaaaaaaalom", allData);
 
   return (
     <div className=" flex justify-center items-center flex-col pt-[70px] pb-24 min-h-screen">
@@ -113,7 +117,7 @@ function Home() {
             {/* <div className=" max-h-min"> */}
             <img
               className={`border-2 border-transparent rounded-[42px] ${
-                allData.call === "calling" ? "animate-pulsar" : ""
+                puls ? "animate-pulsar" : ""
               }`}
               src={allData.call === "accepted" ? bell_green : bell}
               alt=""
@@ -123,7 +127,7 @@ function Home() {
         </div>
         <Button
           onClick={callWaiterReq}
-          disabled={allData.call === "calling" ? true : false}
+          disabled={puls}
           variant="contained"
           color="primary"
           className="!py-4 !px-3 w-full !shadow-none !rounded-2xl text-center !text-base !text-white"
