@@ -2,12 +2,13 @@ import { useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { ShoppingBasket } from "@mui/icons-material";
 import { useEffect } from "react";
+import ImageDownloader from "./ImageDownloader";
 // import ImageDownloader from "./ImageDownloader";
 
 function Header({ title, back = false }) {
-  const table = useSelector((state) => state.counter?.allData);
-  const basket = useSelector((state) => state.counter?.basket);
-  const allData = useSelector((state) => state.counter?.allData);
+  const table = useSelector((state) => state.allData?.allData);
+  const basket = useSelector((state) => state.allData?.basket);
+  const allData = useSelector((state) => state.allData?.allData);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,7 +21,7 @@ function Header({ title, back = false }) {
     }
   }, []);
 
-  console.log(basket);
+  // console.log(table);
   return (
     <div className="border-b-[1px] border-gray-200">
       <div className="flex justify-between p-2 pb-1 px-3 max-w-[540px] mx-auto">
@@ -30,12 +31,19 @@ function Header({ title, back = false }) {
             back ? "cursor-pointer" : null
           }`}
         >
-          <img
-            className="rounded-lg w-8 h-8 object-cover"
-            src={back ? "/backarrow.svg" : "/maxfood.png"}
-          />
+          {back ? (
+            <img
+              className="rounded-lg w-8 h-8 object-cover"
+              src={"/backarrow.svg"}
+            />
+          ) : (
+            <ImageDownloader
+              url={table?.restaurant?.photo}
+              className="w-8 h-8 object-contain"
+            />
+          )}
           <span className="pl-3 font-semibold text-xl truncate">
-            {title || table?.name}
+            {title || table?.restaurant?.name}
           </span>
         </div>
 

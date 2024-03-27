@@ -8,7 +8,6 @@ export const counterSlice = createSlice({
     products: [],
     menus: [],
     allData: {},
-    images: {},
     basket: {}
   },
   reducers: {
@@ -31,9 +30,6 @@ export const counterSlice = createSlice({
     setAllData: (state, action) => {
       state.allData = action.payload;
     },
-    addImage: (state, action) => {
-      state.images[action.payload.url] = action.payload.image;
-    },
     setBasket: (state, action) => {
       state.basket = action.payload;
     },
@@ -46,7 +42,6 @@ export const {
   setMenus,
   setProducts,
   setAllData,
-  addImage,
   setBasket,
 } = counterSlice.actions;
 

@@ -5,21 +5,21 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useGet, usePost, usePut } from "../axios/apies";
 import { useDispatch, useSelector } from "react-redux";
 import ImageDownloader from "../components/ImageDownloader";
-import { setBasket } from "../store/reducer/alldata";
+import alldata, { setBasket } from "../store/reducer/alldata";
 
 function Product() {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const params = useParams();
   const navigate = useNavigate();
   const [amount, setAmount] = useState(1);
   const [product, setProduct] = useState({});
   const [basketItem, setBasketItem] = useState(null);
-  const products = useSelector((state) => state.counter.products);
-  const allData = useSelector((state) => state.counter.allData);
-  const basket = useSelector((state) => state.counter.basket);
+  const products = useSelector((state) => state.allData.products);
+  const allData = useSelector((state) => state.allData.allData);
+  const basket = useSelector((state) => state.allData.basket);
   const [loading, setLoading] = useState(false);
 
-  // console.log(allData);
+  // console.log(basket, basketItem, product);
   useEffect(() => {
     let haveItem = basket?.products?.find(
       (item) => item.product._id === params.item_id
@@ -30,7 +30,7 @@ function Product() {
     if (products.length > 0) {
       setProduct(products.find((item) => item._id === params.item_id));
     }
-  }, [products, basket]);
+  }, [products, basket, product]);
 
   function addProductToBasket() {
     setLoading(true);
@@ -47,8 +47,8 @@ function Product() {
         .then(({ data }) => {
           // console.log(data);
           setLoading(false);
-          dispatch(setBasket(data))
-          navigate(-1)
+          dispatch(setBasket(data));
+          navigate(-1);
         })
         .catch((e) => {
           console.log(e);
@@ -62,11 +62,12 @@ function Product() {
         code: localStorage.getItem("code") || "",
         product: product._id,
         quantity: amount,
+        waiter: allData.waiter._id,
       })
-        .then(({data}) => {
+        .then(({ data }) => {
           // console.log(data);
           setLoading(false);
-          dispatch(setBasket(data))
+          dispatch(setBasket(data));
           navigate(-1);
         })
         .catch((e) => {
@@ -87,7 +88,9 @@ function Product() {
           url={product?.photo}
           alt=""
         />
-        <div className="text-xl font-semibold mb-1 font-unbounded">{product.name}</div>
+        <div className="text-xl font-semibold mb-1 font-unbounded">
+          {product.name}
+        </div>
         <div className="flex justify-start items-end pb-6">
           <div className="text-red-500 text-sm font-semibold pr-4">
             {product.price} uzs
@@ -102,32 +105,37 @@ function Product() {
       </div>
       <div className="p-3 fixed w-full bottom-0 bg-white border-t-[1px] border-gray-200 flex justify-center">
         <div className="relative w-full max-w-[500px]">
-          <div className="absolute -top-[90px] right-0 flex items-center text-xl text-primary bg-white rounded-xl select-none">
-            <div
-              onClick={() => setAmount(amount > 1 ? amount - 1 : 1)}
-              className="bg-light p-4 pt-0 pb-4 rounded-xl cursor-pointer"
+          {allData.waiter ? (
+            <div className="absolute -top-[90px] right-0 flex items-center text-xl text-primary bg-white rounded-xl select-none">
+              <div
+                onClick={() => setAmount(amount > 1 ? amount - 1 : 1)}
+                className="bg-light p-4 pt-0 pb-4 rounded-xl cursor-pointer"
+              >
+                _
+              </div>
+              <div className="text-base text-black px-4 font-semibold">
+                {amount}
+              </div>
+              <div
+                onClick={() => setAmount(amount > 32 ? 33 : amount + 1)}
+                className="bg-light p-5 py-2 rounded-xl font-semibold cursor-pointer"
+              >
+                +
+              </div>
+            </div>
+          ) : null}
+
+          {allData.waiter ? (
+            <Button
+              variant="contained"
+              color="primary"
+              disabled={loading}
+              onClick={addProductToBasket}
+              className="!py-2.5 !px-3 !w-full !shadow-none !rounded-2xl text-center !text-base !font-semibold !text-white !lowercase"
             >
-              _
-            </div>
-            <div className="text-base text-black px-4 font-semibold">
-              {amount}
-            </div>
-            <div
-              onClick={() => setAmount(amount > 32 ? 33 : amount + 1)}
-              className="bg-light p-5 py-2 rounded-xl font-semibold cursor-pointer"
-            >
-              +
-            </div>
-          </div>
-          <Button
-            variant="contained"
-            color="primary"
-            disabled={loading}
-            onClick={addProductToBasket}
-            className="!py-2.5 !px-3 !w-full !shadow-none !rounded-2xl text-center !text-base !font-semibold !text-white !lowercase"
-          >
-            {amount * product.price} so`m
-          </Button>
+              {amount * product.price} so`m
+            </Button>
+          ) : null}
         </div>
       </div>
     </div>

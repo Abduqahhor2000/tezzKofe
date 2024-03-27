@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { useGetPhoto } from "../axios/apies";
 import { useDispatch, useSelector } from "react-redux";
-import { addImage } from "../store/reducer/alldata";
+import { addImage } from "../store/reducer/images";
 
 export default function ImageDownloader({ url, ...props }) {
-  const {images} = useSelector(state=> state.counter)
   const dispatch = useDispatch()
+  const {images} = useSelector(state=> state.images)
   const [imageSrc, setImageSrc] = useState("");
   // console.log(images, url, imageSrc);
 

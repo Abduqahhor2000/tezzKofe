@@ -10,10 +10,12 @@ import Purchases from "./pages/Purchases.jsx";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Connect from "./pages/Connect.jsx";
-import store from "./store";
+import { store, persistor } from "./store";
 import { Provider } from "react-redux";
 import Basket from "./pages/Basket.jsx";
 import Page404 from "./pages/Page404.jsx";
+import { PersistGate } from "redux-persist/integration/react";
+
 
 const router = createBrowserRouter([
   {
@@ -54,11 +56,13 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <Provider store={store}>
-        <RouterProvider router={router} />
+        <PersistGate loading={null} persistor={persistor}>
+          <RouterProvider router={router} />
+        </PersistGate>
       </Provider>
+      <Provider store={store}></Provider>
     </ThemeProvider>
   </React.StrictMode>
 );
-
 
 // 65c25d55b6b3a96794261b9d/

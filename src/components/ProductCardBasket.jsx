@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 function ProductCardBasket({ meal }) {
   const [isRemoving, setIsRemoving] = useState(false);
   const [loading, setLoading] = useState(false);
-  const basket = useSelector((state) => state.counter.basket);
+  const basket = useSelector((state) => state.allData.basket);
   const cardRef = useRef(null);
   const dispatch = useDispatch();
 

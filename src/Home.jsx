@@ -13,12 +13,12 @@ import io from "socket.io-client";
 import ImageDownloader from "./components/ImageDownloader";
 
 function Home() {
-  const allData = useSelector((state) => state.counter.allData);
+  const allData = useSelector((state) => state.allData.allData);
   const [loading, setLoading] = useState(false);
   const [puls, setPuls] = useState(false);
   const dispatch = useDispatch();
   // const yaxmalay = import.meta.env.VITE_API_KEY;
-
+  // console.log(allData);
   useEffect(() => {
     getStatusWaiter();
     if (!allData._id) {
@@ -34,14 +34,14 @@ function Home() {
       transports: ["websocket"],
       query: {
         table: allData._id,
-        restaurant: allData.restaurant,
+        restaurant: allData.restaurant._id,
       },
     });
     socket.connect();
     // console.log("salom");
     socket.on("callAccepted", () => {
       getStatusWaiter();
-      console.log("Connected to server!");
+      // console.log("Connected to server!");
       // getStatusWaiter()
     });
 
@@ -97,6 +97,7 @@ function Home() {
       <div className="fixed top-0 left-0 w-full bg-white z-10">
         <Header />
       </div>
+      <div>{allData?.name}</div>
       <div className="w-80 min-h-80 rounded-lg bg-light p-4 pt-3">
         <div className="mb-6">
           <div className="mb-4 text-black flex items-center">

@@ -63,7 +63,7 @@ export default function Connect() {
               </IconButton> */}
         </div>
         <div className="font-bold text-base leading-5 mb-3">
-          Tasdiqlash kodingizni kiriting
+        Himoya kalitini yarating yoki mavjud kalitni kiriting!
         </div>
         <form onSubmit={getToken}>
           <BaseInput

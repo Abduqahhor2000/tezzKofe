@@ -9,17 +9,17 @@ import ProductCardBasket from "../components/ProductCardBasket";
 import { Button } from "@mui/material";
 
 function Basket() {
-  const table = useSelector((state) => state.counter?.allData);
-  const basket = useSelector((state) => state.counter?.basket);
+  const table = useSelector((state) => state.allData?.allData);
+  const basket = useSelector((state) => state.allData?.basket);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
 
-  //   console.log(basket);
+    // console.log(table);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useGet(
-      `/clients/basket?restaurant=${table.restaurant}&table=${
+      `/clients/basket?restaurant=${table.restaurant._id}&table=${
         table._id
       }&code=${localStorage.getItem("code")}`
     )
@@ -64,7 +64,7 @@ function Basket() {
       </div>
 
       <div className="fixed bottom-0 left-0 w-full bg-white">
-        {basket.totalPrice ? (
+        {basket.totalPrice && table.waiter ? (
           <div className="mx-auto max-w-[500px] px-4 pt-2.5 pb-5">
             <Button
               onClick={orderWithBasket}

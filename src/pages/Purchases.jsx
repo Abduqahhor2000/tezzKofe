@@ -6,7 +6,7 @@ import { useGet } from "../axios/apies";
 import { useSelector } from "react-redux";
 
 function Purchases() {
-  const table = useSelector((state) => state.counter.allData);
+  const table = useSelector((state) => state.allData.allData);
   const [purchs, setPurchs] = useState(null);
 
   useEffect(() => {
@@ -16,7 +16,7 @@ function Purchases() {
   function getOrders() {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useGet(
-      `/clients/orders?restaurant=${table.restaurant}&table=${table._id}&code=${
+      `/clients/orders?restaurant=${table.restaurant._id}&table=${table._id}&code=${
         localStorage.getItem("code") || ""
       }`
     )

@@ -8,13 +8,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { setMenus, setProducts } from "../store/reducer/alldata";
 
 function Menu() {
-  const table = useSelector((state) => state.counter?.allData);
-  const menus = useSelector((state) => state.counter?.menus)
+  const table = useSelector((state) => state.allData?.allData);
+  const menus = useSelector((state) => state.allData?.menus)
   const dispatch = useDispatch();
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    useGet(`/categories?restaurant=${table?.restaurant}`).then(({ data }) => {
+    useGet(`/categories?restaurant=${table?.restaurant._id}`).then(({ data }) => {
       dispatch(setMenus(data));
       dispatch(setProducts(data));
       // console.log(data);

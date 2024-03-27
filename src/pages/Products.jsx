@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 
 function Kits() {
   const params = useParams();
-  const menus = useSelector((state) => state.counter.menus);
+  const menus = useSelector((state) => state.allData.menus);
   const [products, setProducts] = useState([]);
 
   // useEffect(() => {
@@ -18,6 +18,8 @@ function Kits() {
   //   });
   // }, []);
 
+  // console.log(menus);
+
   return (
     <div className="pt-[100px] pb-24 px-4 min-h-screen">
       <div className="fixed top-0 left-0 w-full bg-white z-10">
@@ -26,7 +28,7 @@ function Kits() {
 
       <div className="max-w-[500px] grid grid-cols-2 gap-4 mx-auto">
         {menus.map((item) => {
-          if (item._id !== params.kit_id) {
+          if (item._id != params.kit_id) {
             return null;
           }
           return item.products.map((product) => {
