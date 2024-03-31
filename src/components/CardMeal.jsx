@@ -1,8 +1,8 @@
 import ImageDownloader from "./ImageDownloader";
 
-function CardMeal({ meal }) {
+function CardMeal({ meal, isActive=false }) {
   return (
-    <div className="p-4 rounded-lg bg-gray-100 flex">
+    <div className={`p-4 rounded-lg ${isActive ? "bg-red-50" : "bg-gray-100"} flex`}>
       <ImageDownloader
         className="aspect-[1/1] w-20 object-cover"
         url={meal?.product?.photo}
